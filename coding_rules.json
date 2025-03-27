@@ -1,0 +1,305 @@
+{
+
+  "coding_rules": {
+
+    "core_principles": {
+
+      "modularity": "Create independent, reusable modules. Each module should be testable, updatable, and deployable by itself.",
+
+      "single_responsibility": "Each module should perform only one well-defined task. Refactor any module that does more.",
+
+      "dry": "Avoid code duplication. Extract common logic into reusable functions or modules.",
+
+      "kiss": "Keep the code simple and avoid unnecessary complexity.",
+
+      "readability": "Ensure the code is easily understandable. Use descriptive names, concise comments, and consistent formatting.",
+
+      "maintainability": "Design code for easy modification, debugging, and scalability.",
+
+      "security": "Validate all inputs, protect sensitive data, and follow secure coding guidelines.",
+
+      "portability": "Ensure the code is platform-independent and deployable via Docker containers.",
+
+      "api_first_design": "Define APIs before implementation, ensuring clear inter-module communication."
+
+    },
+
+    "workflow": {
+
+      "fork_and_validate": {
+
+        "description": "Fork the repository, validate the baseline version locally, and ensure it runs before modularization.",
+
+        "steps": [
+
+          "Fork the repository to GitHub and document the current version in the ModLog as Version 0.1.0.",
+
+          "Clone the forked repository locally and validate the codebase using Cursor.",
+
+          "Debug and resolve any compatibility or dependency issues before starting modularization.",
+
+          "Once validated, update the ModLog to reflect a stable baseline."
+
+        ]
+
+      },
+
+      "modularization": {
+
+        "description": "Identify, isolate, and modularize components incrementally after baseline validation.",
+
+        "steps": [
+
+          "Calculate the Module Prioritization Score (MPS) for each module (see Module Scoring and Prioritization section).",
+
+          "Begin modularization by isolating high-priority components (those with the highest MPS).",
+
+          "Iteratively apply the Change → Test → ModLog Update process for each module.",
+
+          "Test each modularized component independently before integration."
+
+        ]
+
+      },
+
+      "testing_and_integration": {
+
+        "description": "Ensure robust testing for all modularized components and seamless integration into the system.",
+
+        "steps": [
+
+          "Write unit, integration, and end-to-end tests for each module.",
+
+          "Validate each module's functionality in isolation using Cursor.",
+
+          "Integrate modularized components incrementally, ensuring functionality is preserved."
+
+        ]
+
+      },
+
+      "modlog": {
+
+        "update": "Maintain a detailed log of all changes. Include module name, description, version, date/time, status, and notes."
+
+      },
+
+      "iteration": "Follow an iterative process: Change → Test → ModLog Update.",
+
+      "error_handling": "Implement robust error handling and rollback mechanisms for critical issues."
+
+    },
+
+    "module_scoring_and_prioritization": {
+
+      "description": "Before developing or refactoring a module, calculate its Module Prioritization Score (MPS) to determine the coding order. Prioritize modules with the highest MPS.",
+
+      "formula": "MPS = (IM  4) + (IP  5) + (ADV  4) + (ADF  3) + (DF  5) + (RF  3) - (CX * 3)",
+
+      "factors": {
+
+        "CX": "Complexity (1-5): 1 = easy, 5 = complex. Estimate your effort; lower is better.",
+
+        "IM": "Importance (1-5): 1 = low, 5 = critical. Essential to the application's main purpose; higher is better.",
+
+        "IP": "Impact (1-5): 1 = minimal, 5 = high. Overall positive effect; higher is better.",
+
+        "ADV": "AI Data Value (1-5): 1 = none, 5 = high. Usefulness of data for AI training; higher is better.",
+
+        "ADF": "AI Development Feasibility (1-5): 1 = infeasible, 5 = easy. How easy it is for the AI to work on this; higher is better.",
+
+        "DF": "Dependency Factor (1-5): 1 = none, 5 = bottleneck. How many other modules need this one; higher is better.",
+
+        "RF": "Risk Factor (1-5): 1 = low, 5 = high. Risks if this module is delayed/skipped; higher is better."
+
+      },
+
+      "prioritization": "Modules with the highest MPS should be prioritized. Use individual factor scores to break ties."
+
+    },
+
+    "dockerization": "Always package code in Docker containers and use Kubernetes for orchestration.",
+
+    "ai_integration": {
+
+      "data_preparation": "Clean and preprocess data thoroughly. Document transformations.",
+
+      "model_selection": "Choose models based on problem type and data characteristics.",
+
+      "logging": "Log inputs, outputs, and key decisions. Use a structured format (e.g., JSON).",
+
+      "explainability": "Ensure AI decisions are interpretable. Use techniques like SHAP or LIME for complex models."
+
+    },
+
+    "blockchain_integration": {
+
+      "smart_contracts": "Use smart contract stubs for blockchain interactions.",
+
+      "data_immutability": "Leverage blockchain for critical data integrity checks.",
+
+      "connection_logic": "Include hooks for future blockchain integration."
+
+    },
+
+    "rag_vector_database_integration": {
+
+      "principles": {
+
+        "selection": "Use an open-source vector database (e.g., Pinecone, Milvus, Weaviate, or Qdrant).",
+
+        "scalability": "Ensure the vector database can scale with growing data and AI needs.",
+
+        "local_deployment": "Configure for local deployment for offline capabilities."
+
+      },
+
+      "integration_guidelines": [
+
+        "Implement modules to interact with the vector database for efficient similarity searches.",
+
+        "Use embeddings generated from AI models to populate the vector database.",
+
+        "Ensure data is preprocessed and formatted for compatibility with the vector database schema."
+
+      ],
+
+      "security": {
+
+        "data_privacy": "Encrypt sensitive embeddings stored in the vector database.",
+
+        "access_control": "Implement strict access control mechanisms for database interactions."
+
+      },
+
+      "testing": {
+
+        "unit_tests": "Verify each API endpoint (insert, search, delete).",
+
+        "performance_tests": "Benchmark vector search operations for latency and accuracy."
+
+      },
+
+      "dockerization": "Package the vector database module in a Docker container for portability."
+
+    },
+
+    "agent_autonomy": {
+
+      "decision_engine": "Implement or integrate an AI-based decision engine (e.g., a chain-of-thought LLM) that prioritizes tasks and resolves conflicts between modules.",
+
+      "task_scheduling": "Define how tasks are queued, prioritized, and retried. Include concurrency rules and resource allocation strategies.",
+
+      "fallback_mechanisms": "Specify how the Agent recovers from errors or unexpected states (e.g., revert to a known stable module version).",
+
+      "permission_management": "Clearly define which resources or actions the Agent can access, with role-based or capability-based access controls.",
+
+      "human_in_the_loop": "Allow optional manual review for critical actions or high-stakes decisions, especially in production environments."
+
+    },
+
+    "cicd_pipeline": {
+
+      "branching_strategy": "Adopt a clear Git branching model (e.g., Gitflow or trunk-based).",
+
+      "automated_builds": "Use GitHub Actions, Jenkins, or similar to build and test code automatically on each commit.",
+
+      "container_registry": "Push Docker images to a registry (e.g., Docker Hub, ECR) after successful builds.",
+
+      "environment_promotion": "Automate deployment from development → staging → production, with gate checks at each stage.",
+
+      "infrastructure_as_code": {
+
+        "description": "Use Terraform, CloudFormation, or Ansible to define and manage infrastructure in a version-controlled manner.",
+
+        "best_practices": "Apply the same iterative approach (Change → Test → ModLog Update) to infrastructure changes."
+
+      }
+
+    },
+
+    "observability": {
+
+      "logging": "Use a structured logging format (JSON) for all modules. Include trace IDs for request correlation.",
+
+      "metrics": "Track key performance indicators (e.g., CPU, memory, request latency) via Prometheus or similar.",
+
+      "tracing": "Implement distributed tracing (e.g., OpenTelemetry) across modules to visualize end-to-end request flow.",
+
+      "alerting": "Set up automated alerts for abnormal metrics or error patterns. Integrate with Slack, PagerDuty, or email."
+
+    },
+
+    "ethics_and_compliance": {
+
+      "bias_detection": "Regularly evaluate AI models for bias and discriminatory outcomes. Document findings and mitigations.",
+
+      "privacy_by_design": "Ensure GDPR/CCPA compliance if user data is involved. Pseudonymize or anonymize data wherever possible.",
+
+      "secure_secret_management": "Store sensitive keys and credentials in a vault (e.g., HashiCorp Vault). Rotate credentials regularly.",
+
+      "licensing_and_ip": "Track third-party dependencies for license compliance. Use SBOM (Software Bill of Materials) tools to detect issues."
+
+    },
+
+    "documentation": {
+
+      "module_readmes": "Each module must have a README detailing purpose, dependencies, interfaces, and usage examples.",
+
+      "architecture_diagrams": "Maintain updated diagrams (e.g., UML, sequence diagrams) showing how modules interact under the Agent’s control.",
+
+      "api_specs": "Use OpenAPI/Swagger for REST endpoints and GraphQL SDL for GraphQL endpoints. Keep them in sync with the codebase.",
+
+      "knowledge_base": "Centralize how-tos, troubleshooting steps, and best practices in a wiki or documentation portal."
+
+    },
+
+    "performance_scalability": {
+
+      "load_testing": "Use tools like Locust or JMeter to simulate high traffic and record response times and error rates.",
+
+      "stress_testing": "Identify system breaking points by gradually increasing load or resource constraints.",
+
+      "profiling": "Implement CPU, memory, and GPU profiling for AI modules. Optimize hot paths where possible.",
+
+      "autoscaling_policies": "Configure Kubernetes HPA (Horizontal Pod Autoscaler) or similar for modules under high load."
+
+    },
+
+    "advanced_blockchain_integration": {
+
+      "chain_selection": "Define criteria for choosing a blockchain (e.g., Ethereum vs. Polygon vs. private chain) based on transaction cost, throughput, and ecosystem.",
+
+      "smart_contract_upgradeability": "Leverage proxy patterns or upgradable frameworks (e.g., OpenZeppelin) to allow contract iteration without breaking changes.",
+
+      "multi_chain_support": "If relevant, design modules to interact with multiple chains or side-chains, potentially bridging data across them."
+
+    },
+
+    "ai_lifecycle_management": {
+
+      "model_versioning": "Tag models with semantic versions and store them in a model registry (e.g., MLflow).",
+
+      "automated_retraining": "Schedule or trigger retraining when data drift or performance degradation is detected.",
+
+      "model_monitoring": "Continuously evaluate model predictions against ground truth (when available) or user feedback. Generate alerts for significant performance drops.",
+
+      "rollback_strategies": "Enable quick rollback to a previous model version if the new version underperforms."
+
+    },
+
+    "collaboration_governance": {
+
+      "code_review_policy": "Require at least one peer review or automated code review (linting, SAST) before merging PRs.",
+
+      "team_roles": "Define roles (e.g., Maintainer, Reviewer, Contributor) with corresponding permissions.",
+
+      "governance_board": "For major architectural changes, have a review board or committee to ensure alignment with strategic goals.",
+
+      "meeting_cadence": "Regularly sync (e.g., weekly) to discuss upcoming changes, address blockers, and plan next steps."
+
+    }
+
+  }
+
+}
